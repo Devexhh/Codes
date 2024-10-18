@@ -1,5 +1,3 @@
-# Numerical Methods
-
 Bisection Method
 
 ```cpp
@@ -243,6 +241,203 @@ int main() {
 
     gaussJordan(A, B);
 
+    return 0;
+}
+```
+
+Gauss-Jacobi
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+void gaussJacobi(vector<vector<double>>& a, vector<double>& b, int n, int max_iter = 100, double tol = 1e-5) {
+    vector<double> x(n, 0), x_new(n, 0);
+    for (int iter = 0; iter < max_iter; iter++) {
+        for (int i = 0; i < n; i++) {
+            double sum = 0;
+            for (int j = 0; j < n; j++) {
+                if (i != j) {
+                    sum += a[i][j] * x[j];
+                }
+            }
+            x_new[i] = (b[i] - sum) / a[i][i];
+        }
+        double error = 0;
+        for (int i = 0; i < n; i++) {
+            error += fabs(x_new[i] - x[i]);
+            x[i] = x_new[i];
+        }
+        if (error < tol) break;
+    }
+    for (int i = 0; i < n; i++) {
+        cout << "x" << i + 1 << " = " << x[i] << endl;
+    }
+}
+
+int main() {
+    int n = 3;
+    vector<vector<double>> a = {
+        {5, -2, 3},
+        {-3, 9, 1},
+        {2, -1, -7}
+    };
+    vector<double> b = {-1, 2, 3};
+    gaussJacobi(a, b, n);
+    return 0;
+}
+```
+
+Gauss-Siedel
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+void gaussSeidel(vector<vector<float> >& a, vector<float>& b, int n, int max_iter = 100, float tol = 1e-5) {
+    vector<float> x(n, 0);
+    for (int iter = 0; iter < max_iter; iter++) {
+        float error = 0;
+        for (int i = 0; i < n; i++) {
+            float sum = 0;
+            for (int j = 0; j < n; j++) {
+                if (i != j) {
+                    sum += a[i][j] * x[j];
+                }
+            }
+            float x_new = (b[i] - sum) / a[i][i];
+            error += fabs(x_new - x[i]);
+            x[i] = x_new;
+        }
+        if (error < tol) break;
+    }
+    for (int i = 0; i < n; i++) {
+        cout << "x" << i + 1 << " = " << x[i] << endl;
+    }
+}
+
+int main() {
+    int n = 3;
+    vector<vector<float> > a = {
+        {5, -2, 3},
+        {-3, 9, 1},
+        {2, -1, -7}
+    };
+    vector<float> b = {-1, 2, 3};
+
+    gaussSeidel(a, b, n);
+
+    return 0;
+}
+```
+
+Lagranges-Interpolation
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+double lagrangesInterpolation(double x[], double y[], int n, double xp) {
+    double yp = 0;
+    for (int i = 0; i < n; i++) {
+        double p = y[i];
+        for (int j = 0; j < n; j++) {
+            if (i != j) {
+                p = p * (xp - x[j])/(x[i] - x[j]);
+            }
+        }
+        yp += p;
+    }
+    return yp;
+}
+
+int main () {
+    int n; cout << "Enter n: "; cin >> n;
+    double x[n-1], y[n-1];
+    for (int i = 0; i < n-1; i++) {
+        cout << "x[" << i << "]: ";
+        cin >> x[i];
+    }
+    for (int i = 0; i < n-1; i++) {
+        cout << "y[" << i << "]: ";
+        cin >> y[i];
+    }
+    double xp; cout << "Enter xp: " ; cin >> xp;
+    cout << "Interpolated Value at x = " << xp << " is " << lagrangesInterpolation(x,y,n,xp) << endl;
+    return 0;
+}
+```
+
+Newton-Forward Interpolation
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+void newtonForwardInterpolation(double x[], double y[], int n, double xp) {
+    double h = x[1]-x[0];
+    double diff[n][n];
+    for (int i = 0; i < n; i++) {
+        diff[i][0] = y[i];
+    }
+    for (int j = 1; j < n; j++) {
+        for (int i = 0; i < n-j; i++) {
+            diff[i][j] = diff[i+1][j-1] - diff[i][j-1];
+        }
+    }
+    double s = diff[0][0];
+    double u = (xp - x[0])/h;
+    double uterm = u;
+    for (int i = 1; i < n; i++) {
+        s += (uterm * diff[0][i]/i);
+        uterm *= (u-i);
+    }
+    cout << "The interpolated value at x = " << xp << " is " << s << endl;
+}
+
+int main() {
+    int n = 7;
+    double x[] = {1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3};
+    double y[] = {5.474, 6.050, 6.686, 7.389, 8.166, 9.025, 9.974};
+    double xp = 1.85;
+    newtonForwardInterpolation(x,y,n,xp);
+    return 0;
+}
+```
+
+Newton Backward-Interpolation
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+void newtonForwardInterpolation(double x[], double y[], int n, double xp) {
+    double h = x[1]-x[0];
+    double diff[n][n];
+    for (int i = 0; i < n; i++) {
+        diff[i][0] = y[i];
+    }
+    for (int j = 1; j < n; j++) {
+        for (int i = n-1; i >= j; i--) {
+            diff[i][j] = diff[i][j-1] - diff[i-1][j-1];
+        }
+    }
+    double s = diff[n-1][0];
+    double u = (xp - x[n-1])/h;
+    double uterm = u;
+    for (int i = 1; i < n; i++) {
+        s += (uterm * diff[n-1][i]/i);
+        uterm *= (u+i);
+    }
+    cout << "The interpolated value at x = " << xp << " is " << s << endl;
+}
+
+int main() {
+    int n = 7;
+    double x[] = {1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3};
+    double y[] = {5.474, 6.050, 6.686, 7.389, 8.166, 9.025, 9.974};
+    double xp = 2.25;
+    newtonForwardInterpolation(x,y,n,xp);
     return 0;
 }
 ```
