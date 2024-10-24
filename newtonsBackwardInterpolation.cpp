@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void newtonForwardInterpolation(double x[], double y[], int n, double xp) {
+void newtonBackwardInterpolation(double x[], double y[], int n, double xp) {
     double h = x[1]-x[0];
     double diff[n][n];
     for (int i = 0; i < n; i++) {
@@ -27,6 +27,6 @@ int main() {
     double x[] = {1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3};
     double y[] = {5.474, 6.050, 6.686, 7.389, 8.166, 9.025, 9.974};
     double xp = 2.25;
-    newtonForwardInterpolation(x,y,n,xp);
+    newtonBackwardInterpolation(x,y,n,xp);
     return 0;
 }
