@@ -51,14 +51,14 @@ int main() {
     cout << fixed << setprecision(8);
     for (int n: intervals) {
         double approx = trapezoidalRule(a,b,n);
-        double exact = atan(1)*4;
+        double exact = atan(1);
         double error = fabs(exact-approx);
         cout << "Trapezoidal Rule with n = " << n << " : " << approx << ", Absolute error = " << error << endl;
     }
     for (int n: intervals) {
         if (n % 2 == 0) {
             double approx = simpsonsOneThirdRule(a,b,n);
-            double exact = atan(1)*4;
+            double exact = atan(1);
             double error = fabs(exact-approx);
             cout << "Simpson's 1/3 with n = " << n << " : " << approx << ", Absolute error = " << error << endl;
         }
@@ -66,7 +66,7 @@ int main() {
     for (int n: intervals) {
         if (n % 3 == 0) {
             double approx = simpsonsThreeEighthRule(a,b,n);
-            double exact = atan(1)*4;
+            double exact = atan(1);
             double error = fabs(exact-approx);
             cout << "Simpson's 3/8 with n = " << n << " : " << approx << ", Absolute error = " << error << endl;
         }
