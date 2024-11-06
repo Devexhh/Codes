@@ -2,7 +2,7 @@
 using namespace std;
 
 double f(double x, double y) {
-    return x*(y-x);
+    return (x*x)+(y*y);
 }
 
 void rungeKutta(double x0, double y0, double h, double xf) {
@@ -21,10 +21,10 @@ void rungeKutta(double x0, double y0, double h, double xf) {
 }
 
 int main () {
-    double x0 = 2.0;
-    double y0 = 3.0;
-    double h = 0.2;
-    double xf = 2.2;
+    double x0 = 1.0;
+    double y0 = 1.2;
+    double h = 0.05;
+    double xf = 1.05;
     rungeKutta(x0, y0,h,xf);
     return 0;
 }
