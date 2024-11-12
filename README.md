@@ -14,3 +14,8 @@ It consists of
 - Lagranges Interpolation
 - Newton Forward Interpolation
 - Newton Backward Interpolation
+- Trapezoidal Rule
+- Simpson's 1/3 Rule
+- Simpson's 3/8 Rule
+- Euler Formula
+- Runge Kutta 4
